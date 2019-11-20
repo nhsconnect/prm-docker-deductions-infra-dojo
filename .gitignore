@@ -1,0 +1,6 @@
+imagerc*
+Dojofile.to_be_tested*
+Dojofile.example
+.terraform
+*.png
+ops/

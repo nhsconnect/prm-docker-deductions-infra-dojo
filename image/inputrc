@@ -1,0 +1,8 @@
+# Mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving.
+# Without this we'd get: ;5D or ;5C.
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word

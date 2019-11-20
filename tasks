@@ -1,0 +1,68 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+RELEASER_VERSION="2.1.0"
+DOCKER_OPS_VERSION="2.0.0"
+
+RELEASER_FILE="ops/releaser-${RELEASER_VERSION}"
+DOCKER_OPS_FILE="ops/docker-ops-${DOCKER_OPS_VERSION}"
+
+mkdir -p ops
+if [[ ! -f $RELEASER_FILE ]];then
+  wget --quiet -O $RELEASER_FILE https://github.com/kudulab/releaser/releases/download/${RELEASER_VERSION}/releaser
+fi
+source $RELEASER_FILE
+if [[ ! -f $DOCKER_OPS_FILE ]];then
+  wget --quiet -O $DOCKER_OPS_FILE https://github.com/kudulab/docker-ops/releases/download/${DOCKER_OPS_VERSION}/docker-ops
+fi
+source $DOCKER_OPS_FILE
+
+image_name="nhsdev/deductions-infra-dojo"
+image_registry="dockerhub"
+image_dir="./image"
+imagerc_filename="imagerc"
+
+function docker_login {
+  if [ -z "$DOCKERHUB_PASSWORD" ]; then
+    echo "DOCKERHUB_PASSWORD must be your dockerhub password or an API token"
+    exit 5;
+  fi
+  echo "$DOCKERHUB_PASSWORD" | docker login --username nhstomzo --password-stdin
+}
+
+command="$1"
+set +u
+case "${command}" in
+  set_version)
+      set +u
+      releaser::bump_changelog_version "$2" "$3"
+      ;;
+  verify_version)
+      releaser::verify_release_ready
+      ;;
+  build_local)
+      image_tag=$(git rev-parse HEAD)
+      docker_ops::docker_build "${image_dir}" "${imagerc_filename}" "${image_name}" "${image_tag}" "${image_registry}"
+      ;;
+  build)
+      docker_login
+      ./tasks build_local
+      docker_ops::push "${image_dir}" "${imagerc_filename}"
+      ;;
+  release)
+      ./tasks verify_version
+      releaser::git_tag_from_changelog
+      ;;
+  publish)
+      docker_login
+      version=$(releaser::get_last_version_from_whole_changelog "${changelog_file}")
+      docker_ops::ensure_pulled_image "${image_dir}" "${imagerc_filename}"
+      docker_ops::retag_push "${image_dir}"  "${imagerc_filename}" "${image_name}" "${version}" "${image_registry}"
+      ;;
+  *)
+      echo "Invalid command: '${command}'"
+      exit 1
+      ;;
+esac
+set +e
