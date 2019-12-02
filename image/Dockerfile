@@ -91,6 +91,15 @@ RUN wget -O /tmp/packer.zip \
   chmod +x /usr/bin/packer &&\
   rm /tmp/packer.zip
 
+RUN pip install yasha
+
+# Install Docker to have the client CLI available
+RUN apk add docker
+RUN usermod -a -G root dojo
+RUN groupmod ping --gid 998 &&\
+  groupmod docker --gid 999
+RUN usermod -a -G docker dojo
+
 COPY aws-cli-assumerole.sh /usr/bin/aws-cli-assumerole
 
 COPY etc_dojo.d/scripts/* /etc/dojo.d/scripts/
