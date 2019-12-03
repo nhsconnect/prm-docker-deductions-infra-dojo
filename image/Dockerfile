@@ -12,8 +12,8 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
 ############
 
 # Same as at: https://hub.docker.com/r/hashicorp/terraform/~/dockerfile/
-ENV TERRAFORM_VERSION=0.12.16
-ENV TERRAFORM_SHA256SUM=fcc719314660adc66cbd688918d13baa1095301e2e507f9ac92c9e22acf4cc02
+ENV TERRAFORM_VERSION=0.12.17
+ENV TERRAFORM_SHA256SUM=8124c7dfe5036377de0637378ad32cf530477403c29ab1ccefbaa50a05d059c2
 
 # * font-bitstream-type1 is for graphviz, without it, when generating a png file,
 # the text just ends up being a string of boxes
