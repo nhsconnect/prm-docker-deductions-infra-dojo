@@ -1,0 +1,29 @@
+format_version: 3
+pipelines:
+  docker-deductions-infra-dojo:
+    group: dojo
+    label_template: "${git[:8]}"
+    materials:
+      git:
+        type: configrepo
+        blacklist:
+          - "**/*.md"
+    secure_variables:
+      DOCKERHUB_PASSWORD: "AES:l4TzO03XGM1O6tbRiKzxOA==:2xZ/bnmj+KFy4VUQbmwJgD/6/VxTpnXv6Q9s1Sgu6UmzAPToxJsgqdPIdYOt1P1r"
+    stages:
+      - build:
+          clean_workspace: true
+          jobs:
+            docker_image:
+              resources:
+                - docker
+              artifacts:
+                - build:
+                    source: image/imagerc
+                    destination:
+              tasks:
+               - exec:
+                  command: /bin/bash
+                  arguments:
+                    - -c
+                    - ./tasks build
