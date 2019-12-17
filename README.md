@@ -34,7 +34,7 @@ at the root of the project.
 
 Assume role with elevated permissions:
 ```
-eval $(aws-cli-assumerole -rmfa <role-arn> <your-username> <mfa-otp-code>)
+eval $(aws-cli-assumerole -rmfa <role-arn> <mfa-otp-code>)
 ```
 
 Work with terraform as usual:

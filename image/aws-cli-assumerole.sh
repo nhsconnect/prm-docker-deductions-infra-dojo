@@ -22,13 +22,23 @@ assume() {
 }
 
 assume_mfa() {
+    user_arn=$(aws sts get-caller-identity --query Arn --output text)
+    aws_username=$(echo ${user_arn##*/})  # Get username from end of ARN
+    mfa_arn=$(aws iam list-mfa-devices \
+                --user-name $aws_username \
+                --query 'MFADevices[0].SerialNumber' \
+                --output text)
+
     >&2 echo Role is $ROLE_ARN
-    >&2 echo Username is arn:aws:iam::347250048819:mfa/$USERNAME
+    >&2 echo Username is $aws_username
+    >&2 echo MFA ARN is $mfa_arn
     >&2 echo OTP IS: $OTP
+
     export SESSION_NAME=$(date +%s)
+
     temp_role=$(aws sts assume-role \
                         --role-arn "$ROLE_ARN" \
-                        --serial-number arn:aws:iam::347250048819:mfa/$USERNAME \
+                        --serial-number "$mfa_arn" \
                         --token-code ${OTP} \
                         --role-session-name "$SESSION_NAME")
 
@@ -62,8 +72,7 @@ while [ $# -gt 0 ]; do
         -rmfa | --role_mfa)
            shift
            ROLE_ARN=$1
-           USERNAME=$2
-           OTP=$3
+           OTP=$2
            assume_mfa
            exit 0
            ;;
