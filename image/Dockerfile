@@ -20,7 +20,7 @@ ENV TERRAFORM_SHA256SUM=8124c7dfe5036377de0637378ad32cf530477403c29ab1ccefbaa50a
 # * openssh-client is needed in infra-ai_stc
 # * curl-dev is needed for curl to work
 # * curl is needed to get next_version from Consul
-RUN apk add --update openssl wget graphviz font-bitstream-type1 openssh-client curl curl-dev make
+RUN apk add --update openssl wget graphviz font-bitstream-type1 openssh-client curl curl-dev make bind-tools
 
 # pretty bash prompt
 COPY bashrc /home/dojo/.bashrc
