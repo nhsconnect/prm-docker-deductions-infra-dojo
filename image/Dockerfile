@@ -48,7 +48,7 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
   rm -f terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
 # install terraform plugins
-ENV TF_PROVIDER_AWS_VERSION="2.28.1" \
+ENV TF_PROVIDER_AWS_VERSION="2.52.0" \
   TF_PROVIDER_NULL_VERSION="2.1.2" \
   TF_PROVIDER_EXTERNAL_VERSION="1.2.0" \
   TF_PROVIDER_LOCAL_VERSION="1.3.0" \
