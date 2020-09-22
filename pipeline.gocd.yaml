@@ -7,9 +7,7 @@ pipelines:
       git:
         type: configrepo
         blacklist:
-          - "**/*.md"
-    secure_variables:
-      DOCKERHUB_PASSWORD: "AES:l4TzO03XGM1O6tbRiKzxOA==:2xZ/bnmj+KFy4VUQbmwJgD/6/VxTpnXv6Q9s1Sgu6UmzAPToxJsgqdPIdYOt1P1r"
+          - "**/*.md" 
     stages:
       - build:
           clean_workspace: true
