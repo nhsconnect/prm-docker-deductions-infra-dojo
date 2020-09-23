@@ -20,11 +20,10 @@ By default, current directory in docker container is `/dojo/work`.
 In order to get sufficient access to work with terraform or AWS CLI:
 
 Make sure to unset the AWS variables:
-
 ```
-  unset AWS_ACCESS_KEY_ID
-  unset AWS_SECRET_ACCESS_KEY
-  unset AWS_SESSION_TOKEN
+unset AWS_ACCESS_KEY_ID
+unset AWS_SECRET_ACCESS_KEY
+unset AWS_SESSION_TOKEN
 ```
 
 The following set-up is based on the README of assume-role [tool](https://github.com/remind101/assume-role)
@@ -46,23 +45,24 @@ source_profile = default
 ```
 
 Your `source_profile` needs to match your profile in `~/.aws/credentials`.
-
 ```
 [default]
 aws_access_key_id = <your-aws-access-key-id>
 aws_secret_access_key = <your-aws-secret-access-key>
 ```
 
-Enter docker container with terraform and AWS CLI by typing:
-```
-dojo
-```
-at the root of the project.
 
-Assume role with elevated permissions by running the following command with the profile configured in your `~/.aws/config`:
-```
-`eval $(assume-role admin)`
-```
+#### Assume role with elevated permissions 
+
+##### Install `assume-role` locally
+`brew install remind101/formulae/assume-role`
+
+Run the following command with the profile configured in your `~/.aws/config`:
+`assume-role admin`
+
+##### Run `assume-role` with dojo
+Run the following command with the profile configured in your `~/.aws/config`:
+`eval $(dojo "echo <mfa-code> | assume-role admin"`
 
 Run the following command to confirm you assumed the correct role:
 `aws sts get-caller-identity` 

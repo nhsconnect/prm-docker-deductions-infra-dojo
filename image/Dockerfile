@@ -105,8 +105,6 @@ RUN groupmod ping --gid 998 &&\
   groupmod docker --gid 999
 RUN usermod -a -G docker dojo
 
-COPY aws-cli-assumerole.sh /usr/bin/aws-cli-assumerole
-
 COPY etc_dojo.d/scripts/* /etc/dojo.d/scripts/
 COPY inputrc /etc/inputrc
 
