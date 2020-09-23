@@ -35,6 +35,11 @@ RUN apk add --no-cache make python py-pip curl groff &&\
 RUN sudo curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-v${ECS_CLI_VERSION}
 RUN sudo chmod +x /usr/local/bin/ecs-cli
 
+# Install AWS assume-role tool
+RUN wget -O ./assume-role-linux https://github.com/remind101/assume-role/releases/download/0.3.2/assume-role-Linux &&\
+  chmod +x ./assume-role-linux &&\
+  mv ./assume-role-linux /usr/bin/assume-role
+
 # Install jq to parse json in bash
 RUN wget -O ./jq-linux64 https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 &&\
   chmod +x ./jq-linux64 &&\

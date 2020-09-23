@@ -19,11 +19,38 @@ By default, current directory in docker container is `/dojo/work`.
 
 In order to get sufficient access to work with terraform or AWS CLI:
 
-Export your AWS credentials in shell (if you have credentials in `~/.aws/credentials` that will work too):
+Make sure to unset the AWS variables:
+
 ```
-export AWS_ACCESS_KEY_ID=***********
-export AWS_SECRET_ACCESS_KEY=**************************
-unset AWS_SESSION_TOKEN
+  unset AWS_ACCESS_KEY_ID
+  unset AWS_SECRET_ACCESS_KEY
+  unset AWS_SESSION_TOKEN
+```
+
+The following set-up is based on the README of assume-role [tool](https://github.com/remind101/assume-role)
+
+Setup a profile for each role you would like to assume in `~/.aws/config`.
+
+As an example:
+
+```
+[profile default]
+region = eu-west-2
+output = json
+
+[profile admin]
+region = eu-west-2
+role_arn = <role-arn>
+mfa_serial = <mfa-arn>
+source_profile = default
+```
+
+Your `source_profile` needs to match your profile in `~/.aws/credentials`.
+
+```
+[default]
+aws_access_key_id = <your-aws-access-key-id>
+aws_secret_access_key = <your-aws-secret-access-key>
 ```
 
 Enter docker container with terraform and AWS CLI by typing:
@@ -32,10 +59,13 @@ dojo
 ```
 at the root of the project.
 
-Assume role with elevated permissions:
+Assume role with elevated permissions by running the following command with the profile configured in your `~/.aws/config`:
 ```
-eval $(aws-cli-assumerole -rmfa <role-arn> <mfa-otp-code>)
+`eval $(assume-role admin)`
 ```
+
+Run the following command to confirm you assumed the correct role:
+`aws sts get-caller-identity` 
 
 Work with terraform as usual:
 ```
