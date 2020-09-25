@@ -88,6 +88,8 @@ RUN mkdir -p /home/dojo/.terraform.d/plugins/linux_amd64 && cd /tmp &&\
 COPY terraformrc /home/dojo/.terraformrc
 RUN chown dojo:dojo /home/dojo/.terraformrc
 
+RUN mkdir /home/dojo/.terraform.d/plugin-cache 
+
 ENV PACKER_VERSION=1.4.5
 RUN wget -O /tmp/packer.zip \
   https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip &&\
