@@ -43,7 +43,7 @@ case "${command}" in
       docker_ops::docker_build "${image_dir}" "${imagerc_filename}" "${image_name}" "${image_tag}" "${image_registry}"
       ;;
   build)
-      DOCKERHUB_PASSWORD=$(get_aws_ssm_secret "/repo/prod/prm-docker-deductions-infra-dojo/gocd-dockerhub-password")
+      DOCKERHUB_PASSWORD=$(get_aws_ssm_secret "/repo/prod/prm-docker-deductions-infra-dojo/user-input/gocd-dockerhub-password")
       docker_login
       ./tasks build_local
       docker_ops::push "${image_dir}" "${imagerc_filename}"
