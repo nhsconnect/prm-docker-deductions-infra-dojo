@@ -87,3 +87,19 @@ If your session expires, exit the container to drop the temporary credentials an
  * `jq` to parse JSON from bash scripts
  * `dot` to generate infrastructure graphs from terraform
  * a minimal ssh and git setup - to clone terraform modules
+
+## AWS SSM Parameters Design Principles
+
+When creating the new ssm keys, please follow the agreed convention as per the design specified below:
+
+* all parts of the keys are lower case
+* the words are separated by dashes (`kebab case`)
+* `env` is optional
+  
+### Design:
+Please follow this design to ensure the ssm keys are easy to maintain and navigate through:
+
+| Type               | Design                                  | Example                                               |
+| -------------------| ----------------------------------------| ------------------------------------------------------|
+| **User-specified** |`/repo/<env>?/user-input/`               | `/repo/${var.environment}/user-input/db-username`     |
+| **Auto-generated** |`/repo/<env>?/output/<name-of-git-repo>/`| `/repo/output/prm-deductions-base-infra/root-zone-id` |
