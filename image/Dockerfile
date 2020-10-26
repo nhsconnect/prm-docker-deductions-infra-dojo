@@ -6,7 +6,7 @@ FROM alpine:3.10
 # * git is needed to install ide image configs
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
   apk add --no-cache bash shadow sudo git && \
-  git clone --depth 1 -b 0.6.2 https://github.com/kudulab/dojo.git /tmp/dojo_git &&\
+  git clone --depth 1 -b 0.10.2 https://github.com/kudulab/dojo.git /tmp/dojo_git &&\
   /tmp/dojo_git/image_scripts/src/install.sh && \
   rm -r /tmp/dojo_git
 ############
