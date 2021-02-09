@@ -5,7 +5,7 @@ FROM alpine:3.10
 # * entrypoint requires sudo and shadow
 # * git is needed to install ide image configs
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-  apk add --no-cache bash shadow sudo git && \
+  apk add --no-cache bash shadow sudo git postgresql-client && \
   git clone --depth 1 -b 0.10.2 https://github.com/kudulab/dojo.git /tmp/dojo_git &&\
   /tmp/dojo_git/image_scripts/src/install.sh && \
   rm -r /tmp/dojo_git
