@@ -39,7 +39,7 @@ command="$1"
 set +u
 case "${command}" in
   build_local)
-      image_tag=$(git rev-parse HEAD)
+      image_tag=${GO_PIPELINE_LABEL:-$(git rev-parse HEAD)}
       docker_ops::docker_build "${image_dir}" "${imagerc_filename}" "${image_name}" "${image_tag}" "${image_registry}"
       ;;
   build)
