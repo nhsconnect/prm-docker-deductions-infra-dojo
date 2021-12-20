@@ -1,14 +1,14 @@
-FROM alpine:3.10
+FROM alpine:3.15
 
 ############
 # For Dojo:
 # * entrypoint requires sudo and shadow
 # * git is needed to install ide image configs
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-  apk add --no-cache bash shadow sudo git postgresql-client && \
+RUN apk add --no-cache bash shadow sudo git postgresql-client && \
   git clone --depth 1 -b 0.10.2 https://github.com/kudulab/dojo.git /tmp/dojo_git &&\
   /tmp/dojo_git/image_scripts/src/install.sh && \
   rm -r /tmp/dojo_git
+RUN sudo echo sudo is working
 ############
 
 # Same as at: https://hub.docker.com/r/hashicorp/terraform/~/dockerfile/
@@ -27,7 +27,8 @@ COPY profile /home/dojo/.profile
 RUN chown dojo:dojo /home/dojo/.bashrc /home/dojo/.profile
 
 ENV AWS_CLI_VERSION=1.16.238 BOTO3_VERSION=1.9.228 ECS_CLI_VERSION=1.7.0
-RUN apk add --no-cache make python py-pip curl groff &&\
+RUN apk add --no-cache make python3 py3-pip curl groff &&\
+  ln -s /usr/bin/python3 /usr/bin/python &&\
   pip install awscli==${AWS_CLI_VERSION} boto3==${BOTO3_VERSION}
 
 # Install the AWS ECS CLI
