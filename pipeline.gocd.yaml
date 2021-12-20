@@ -2,7 +2,7 @@ format_version: 3
 pipelines:
   docker-deductions-infra-dojo:
     group: dojo
-    label_template: "${git[:8]}"
+    label_template: "${COUNT}-${git[:8]}"
     materials:
       git:
         type: configrepo
