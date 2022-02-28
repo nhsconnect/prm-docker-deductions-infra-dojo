@@ -78,5 +78,7 @@ RUN usermod -a -G docker dojo
 COPY etc_dojo.d/scripts/* /etc/dojo.d/scripts/
 COPY inputrc /etc/inputrc
 
+RUN apk add rust cargo
+
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 CMD ["/bin/bash"]
