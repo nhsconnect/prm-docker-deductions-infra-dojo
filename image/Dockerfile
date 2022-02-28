@@ -78,7 +78,11 @@ RUN usermod -a -G docker dojo
 COPY etc_dojo.d/scripts/* /etc/dojo.d/scripts/
 COPY inputrc /etc/inputrc
 
-RUN apk add rust cargo
+RUN apk add rustup
+RUN rustup-init -y
+ENV PATH "$PATH:/root/.cargo/bin"
+RUN rustup target add x86_64-unknown-linux-gnu
+RUN which cargo
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 CMD ["/bin/bash"]
