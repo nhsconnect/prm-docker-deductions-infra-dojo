@@ -10,7 +10,6 @@ RUN apk add --no-cache bash shadow sudo git postgresql-client && \
   rm -r /tmp/dojo_git
 RUN sudo echo sudo is working
 ############
-
 # Same as at: https://hub.docker.com/r/hashicorp/terraform/~/dockerfile/
 ENV TERRAFORM_VERSION=1.0.11
 
@@ -88,6 +87,7 @@ RUN rustup target add x86_64-unknown-linux-gnu
 RUN which cargo
 RUN chown dojo:dojo /opt/rust
 RUN cargo search dummy_package_forcing_index_download
+RUN mkdir -p /opt/rust/registry && chown dojo:dojo -R /opt/rust/registry
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 CMD ["/bin/bash"]
