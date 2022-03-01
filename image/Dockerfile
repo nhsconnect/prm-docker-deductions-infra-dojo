@@ -86,6 +86,7 @@ RUN ln -s /opt/rust/bin/rustup /usr/local/bin/rustup
 RUN ln -s /opt/rust/bin/cargo /usr/local/bin/cargo
 RUN rustup target add x86_64-unknown-linux-gnu
 RUN which cargo
+RUN chown dojo:dojo /opt/rust
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 CMD ["/bin/bash"]
