@@ -13,6 +13,10 @@ RUN sudo echo sudo is working
 # Same as at: https://hub.docker.com/r/hashicorp/terraform/~/dockerfile/
 ENV TERRAFORM_VERSION=1.0.11
 
+# upgrading expat manually since the version used by alpine has vulnerabilities.
+# this should be removed once alpine image use fixed version of expat.
+RUN apk upgrade expat
+
 # * font-bitstream-type1 is for graphviz, without it, when generating a png file,
 # the text just ends up being a string of boxes
 # * openssh-client is needed in infra-ai_stc
