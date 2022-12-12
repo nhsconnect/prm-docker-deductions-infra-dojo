@@ -11,7 +11,7 @@ RUN apk add --no-cache bash shadow sudo git postgresql-client && \
 RUN sudo echo sudo is working
 ############
 # Same as at: https://hub.docker.com/r/hashicorp/terraform/~/dockerfile/
-ENV TERRAFORM_VERSION=1.0.11
+ENV TERRAFORM_VERSION=1.3.6
 
 # upgrading expat manually since the version used by alpine has vulnerabilities.
 # this should be removed once alpine image use fixed version of expat.
