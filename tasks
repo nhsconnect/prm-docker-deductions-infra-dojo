@@ -18,11 +18,15 @@ image_dir="./image"
 imagerc_filename="imagerc"
 
 function docker_login {
+  if [ -z "$DOCKERHUB_USERNAME" ]; then
+    echo "DOCKERHUB_USERNAME must be your dockerhub username or an API token"
+    exit 5;
+  fi
   if [ -z "$DOCKERHUB_PASSWORD" ]; then
     echo "DOCKERHUB_PASSWORD must be your dockerhub password or an API token"
     exit 5;
   fi
-  echo "$DOCKERHUB_PASSWORD" | docker login --username nhstomzo --password-stdin
+  echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
 }
 
 function get_aws_ssm_secret {
@@ -43,7 +47,8 @@ case "${command}" in
       docker_ops::docker_build "${image_dir}" "${imagerc_filename}" "${image_name}" "${image_tag}" "${image_registry}"
       ;;
   build)
-      DOCKERHUB_PASSWORD=$(get_aws_ssm_secret "/repo/prod/user-input/gocd-dockerhub-password")
+      DOCKERHUB_USERNAME=$(get_aws_ssm_secret "/repo/prod/user-input/prm-team-dockerhub-username")
+      DOCKERHUB_PASSWORD=$(get_aws_ssm_secret "/repo/prod/user-input/prm-team-dockerhub-password")
       docker_login
       ./tasks build_local
       docker_ops::push "${image_dir}" "${imagerc_filename}"

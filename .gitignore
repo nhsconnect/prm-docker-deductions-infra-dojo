@@ -4,3 +4,4 @@ Dojofile.example
 .terraform
 *.png
 ops/
+.idea/
