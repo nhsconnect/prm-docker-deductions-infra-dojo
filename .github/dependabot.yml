@@ -1,0 +1,8 @@
+version: 2
+updates:
+  - package-ecosystem: "docker" 
+    directory: "/image" 
+    schedule: 
+      interval: "weekly" 
+      timezone: "Europe/London" 
+      time: "09:00"
